@@ -22,24 +22,26 @@ jobs:
         path: bindiff
     - uses: actions/checkout@v4
       with:
-        repository: google/binexport
+        repository: nyamisty/binexport
         path: binexport
 
     - name: Install ninja-build tool
       uses: turtlesec-no/get-ninja@1.1.0
 
     - name: Create Build Environment
-      env:
-        IDASDK_SECRET: ${{ secrets.IDASDK_SECRET }}
+      #env:
+      #  IDASDK_SECRET: ${{ secrets.IDASDK_SECRET }}
       working-directory: ${{ github.workspace }}
       shell: bash
       run: |
+        set -x
         mkdir -p "${{ runner.workspace }}/build" \
                  ida/idasdk
-        mv binexport/ida/idasdk/idasdk*.gpg \
-           ida/idasdk/
-        binexport/.github/scripts/decrypt_secret.sh
-        unzip -q "${{ runner.workspace }}/build/idasdk_teams82.zip" \
+        #mv binexport/ida/idasdk/idasdk*.gpg \
+        #   ida/idasdk/
+        #binexport/.github/scripts/decrypt_secret.sh
+        curl -Lo "${{ runner.workspace }}/build/idasdk90.zip" https://github.com/NyaMisty/idasdk-collection/raw/master/idasdk90b1.zip
+        unzip "${{ runner.workspace }}/build/idasdk90.zip" \
               -d "${{ runner.workspace }}/build/"
 
     - name: Enable Developer Command Prompt (Windows)
@@ -56,7 +58,7 @@ jobs:
       run: |
         cmake "${{ github.workspace }}/bindiff" -G Ninja \
           "-DCMAKE_BUILD_TYPE=${BUILD_TYPE}" \
-          "-DIdaSdk_ROOT_DIR=${{ runner.workspace }}/build/idasdk_teams82"
+          "-DIdaSdk_ROOT_DIR=${{ runner.workspace }}/build/idasdk90"
 
     - name: Build
       working-directory: ${{ runner.workspace }}/build
