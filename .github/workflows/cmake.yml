@@ -22,7 +22,7 @@ jobs:
         path: bindiff
     - uses: actions/checkout@v4
       with:
-        repository: nyamisty/binexport
+        repository: tututu-patch/binexport
         path: binexport
 
     - name: Install ninja-build tool
@@ -40,7 +40,7 @@ jobs:
         #mv binexport/ida/idasdk/idasdk*.gpg \
         #   ida/idasdk/
         #binexport/.github/scripts/decrypt_secret.sh
-        curl -Lo "${{ runner.workspace }}/build/idasdk90.zip" https://github.com/NyaMisty/idasdk-collection/raw/master/idasdk90b1.zip
+        curl -Lo "${{ runner.workspace }}/build/idasdk90.zip" https://rkhorse-image-hosting-service.oss-cn-beijing.aliyuncs.com/dummy/idasdk90b2.zip
         unzip "${{ runner.workspace }}/build/idasdk90.zip" \
               -d "${{ runner.workspace }}/build/"
 
